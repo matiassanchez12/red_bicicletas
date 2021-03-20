@@ -1,0 +1,45 @@
+extends ../layout 
+
+block content
+  
+  a(class="btn btn-link" href='/bicicletas/create') Nueva Bicicleta
+  table.table 
+    thead
+      tr 
+        th(scope='col') #
+        th(scope='col') Color
+        th(scope='col') Modelo
+        th(scope='col') Ubicacion
+        th(scope='col')
+        th(scope='col')
+        th(scope='col')
+        th(scope='col')
+    tbody 
+      each bici in bicis
+        tr
+          td(scope='row')
+            = bici.id
+          td= bici.color 
+          td= bici.modelo 
+          td= bici.ubicacion
+          td
+            a(class='btn btn-primary' href= `bicicletas/${bici.id}/update`) Editar
+          td
+            form.inline(method='post' action='bicicletas/'+bici.id+'/delete')
+                input(type='hidden' name='id' value=bici.id)
+                button.link-button(type='submit' name='submit_param' value='submit_value' class='btn btn-danger')
+                    = 'Eliminar'
+          td
+            button(type='button' id=`modal-button-${bici.id}` class=`${bici.id} btn btn-secondary` name="button") Mostrar
+            .modal-issue(id=`modal-form-${bici.id}`)
+              .modal-content
+                .modal-header
+                  span.close(id=`close-${bici.id}`) &times;
+                .modal-body
+                  iframe.airtable-embed(src=`bicicletas/${bici.id}/show` frameborder='0' onmousewheel='' width='100%' height='533' style='background: transparent; border: 6px solid #c1ddad; border-radius: 3px; height: 200px;')
+          
+  
+  script(src='/javascripts/modal.js')
+
+
+      
